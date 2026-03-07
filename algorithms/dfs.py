@@ -9,7 +9,7 @@ class DFS(algorithm.Algorithm):
     
     def solve(self):
         self.frontier.add(self.start_node)
-        yield self.frontier, self.visited, self.start_node, []
+        yield self.frontier, self.visited, self.start_node, [self.start_node]
 
         while self.stack:
             current_node = self.stack.pop()
@@ -26,11 +26,13 @@ class DFS(algorithm.Algorithm):
                     self.came_from[neighbor] = current_node
                     self.stack.append(neighbor)
         
-            yield self.frontier, self.visited, current_node, []
+            yield self.frontier, self.visited, current_node, self.reconstruct_path(current_node)
 
-    def reconstruct_path(self):
+    def reconstruct_path(self, target_node=None):
+        if target_node is None:
+            target_node = self.end_node
         path = []
-        current_node = self.end_node
+        current_node = target_node
         while current_node is not None:
             path.append(current_node)
             current_node = self.came_from[current_node]

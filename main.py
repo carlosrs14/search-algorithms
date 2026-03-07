@@ -1,9 +1,10 @@
+import asyncio
 from gui.window import Window
 from utils import sizes
 from utils.reader import GraphReader
 from gui.map import Map
 
-def main():
+async def main():
     start_node = 0
     end_node = 30
     data_file = 'data/chn31.txt'
@@ -22,7 +23,7 @@ def main():
         start_node=start_node, 
         end_node=end_node
     )
-    window.start()
+    await window.start()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

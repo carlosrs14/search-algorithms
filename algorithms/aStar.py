@@ -24,7 +24,7 @@ class AStar(algorithm.Algorithm):
 
     def solve(self):
         self.frontier.add(self.start_node)
-        yield self.frontier, self.closed_set, self.start_node, []
+        yield self.frontier, self.closed_set, self.start_node, [self.start_node]
 
         while self.open_set:
             _, current_node = heapq.heappop(self.open_set)
@@ -57,11 +57,13 @@ class AStar(algorithm.Algorithm):
                             heapq.heappush(self.open_set, (self.f_score[neighbor], neighbor))
                             self.frontier.add(neighbor)
             
-            yield self.frontier, self.closed_set, current_node, []
+            yield self.frontier, self.closed_set, current_node, self.reconstruct_path(current_node)
 
-    def reconstruct_path(self):
+    def reconstruct_path(self, target_node=None):
+        if target_node is None:
+            target_node = self.end_node
         path = []
-        current_node = self.end_node
+        current_node = target_node
         while current_node in self.came_from:
             path.append(current_node)
             current_node = self.came_from[current_node]

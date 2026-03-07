@@ -7,15 +7,22 @@ class Menu:
         self.font = pygame.font.SysFont("Segoe UI", 24)
         self.title_font = pygame.font.SysFont("Segoe UI", 32, bold=True)
         self.instructions_font = pygame.font.SysFont("Segoe UI", 16)
+        self.speed_font = pygame.font.SysFont("Segoe UI", 18, bold=True)
 
         self.algorithms = ['BFS', 'DFS', 'A*', 'Dijkstra', 'Greedy']
         self.buttons = []
         self.active_algo = None
         
-        self.hovered_algo = None
+        self.hovered_btn = None
+        
+        self.fps_options = [1, 5, 15, 30, 60, 120]
+        self.fps_idx = 4
+        self.fps = self.fps_options[self.fps_idx]
+        
         self._create_buttons()
 
     def _create_buttons(self):
+        self.buttons.clear()
         button_width = self.rect.width - 40
         button_height = 45
         x = self.rect.x + 20
@@ -25,7 +32,17 @@ class Menu:
         for i, algo in enumerate(self.algorithms):
             y = y_start + i * y_gap
             rect = pygame.Rect(x, y, button_width, button_height)
-            self.buttons.append({'rect': rect, 'text': algo, 'algo': algo})
+            self.buttons.append({'rect': rect, 'text': algo, 'action': algo, 'type': 'algo'})
+
+        # Speed controls
+        speed_y = y_start + len(self.algorithms) * y_gap + 20
+        half_btn_width = (button_width - 10) // 2
+        
+        slow_rect = pygame.Rect(x, speed_y, half_btn_width, button_height)
+        fast_rect = pygame.Rect(x + half_btn_width + 10, speed_y, half_btn_width, button_height)
+        
+        self.buttons.append({'rect': slow_rect, 'text': 'Slower', 'action': 'speed_down', 'type': 'speed'})
+        self.buttons.append({'rect': fast_rect, 'text': 'Faster', 'action': 'speed_up', 'type': 'speed'})
 
     def draw(self, screen):
         # Draw panel background
@@ -46,13 +63,18 @@ class Menu:
         screen.blit(inst_surf2, (self.rect.x + 20, dy + 25))
         screen.blit(inst_surf3, (self.rect.x + 20, dy + 50))
 
+        # Speed Label
+        speed_label = self.speed_font.render(f"Speed: {self.fps} FPS", True, TEXT_COLOR)
+        # Position it above the speed buttons
+        speed_y = self.rect.y + 100 + len(self.algorithms) * 60 - 10
+        screen.blit(speed_label, (self.rect.x + 20, speed_y))
 
         # Draw buttons
         for button in self.buttons:
             color = BUTTON_BG
-            if button['algo'] == self.active_algo:
+            if button['type'] == 'algo' and button['action'] == self.active_algo:
                 color = BUTTON_ACTIVE
-            elif button['algo'] == self.hovered_algo:
+            elif button == self.hovered_btn:
                 color = BUTTON_HOVER
 
             pygame.draw.rect(screen, color, button['rect'], border_radius=8)
@@ -62,15 +84,23 @@ class Menu:
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEMOTION:
-            self.hovered_algo = None
+            self.hovered_btn = None
             for button in self.buttons:
                 if button['rect'].collidepoint(event.pos):
-                    self.hovered_algo = button['algo']
+                    self.hovered_btn = button
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1: # Left mouse button
                 for button in self.buttons:
                     if button['rect'].collidepoint(event.pos):
-                        self.active_algo = button['algo']
-                        return button['algo']
+                        if button['type'] == 'algo':
+                            self.active_algo = button['action']
+                            return button['action']
+                        elif button['type'] == 'speed':
+                            if button['action'] == 'speed_up':
+                                self.fps_idx = min(len(self.fps_options) - 1, self.fps_idx + 1)
+                            elif button['action'] == 'speed_down':
+                                self.fps_idx = max(0, self.fps_idx - 1)
+                            self.fps = self.fps_options[self.fps_idx]
+                            return None
         return None

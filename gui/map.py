@@ -56,10 +56,7 @@ class Map:
                 color = FRONTIER_COLOR
                 radius = 6
 
-            if i == current_node:
-                color = (255, 255, 255)
-                radius = 8
-            
+
             if i == start_node:
                 color = START_COLOR
                 radius = 8

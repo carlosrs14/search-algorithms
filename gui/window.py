@@ -1,4 +1,5 @@
 import pygame
+import asyncio
 import sys
 from utils.colors import BACKGROUND
 from gui.menu import Menu
@@ -66,11 +67,11 @@ class Window:
         self.algo_generator = algo.solve()
         self.is_paused = False
 
-    def start(self):
+    async def start(self):
         running = True
         
         while running:
-            dt = self.clock.tick(60)
+            dt = self.clock.tick(self.menu.fps)
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -131,6 +132,7 @@ class Window:
             self.menu.draw(self.screen)
 
             pygame.display.update()
+            await asyncio.sleep(0)
             
         pygame.quit()
         sys.exit()

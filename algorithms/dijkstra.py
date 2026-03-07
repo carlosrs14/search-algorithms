@@ -12,7 +12,7 @@ class Dijkstra(algorithm.Algorithm):
 
     def solve(self):
         self.frontier.add(self.start_node)
-        yield self.frontier, self.closed_set, self.start_node, []
+        yield self.frontier, self.closed_set, self.start_node, [self.start_node]
 
         while self.pq:
             current_distance, current_node = heapq.heappop(self.pq)
@@ -38,11 +38,13 @@ class Dijkstra(algorithm.Algorithm):
                         heapq.heappush(self.pq, (distance, neighbor))
                         self.frontier.add(neighbor)
             
-            yield self.frontier, self.closed_set, current_node, []
+            yield self.frontier, self.closed_set, current_node, self.reconstruct_path(current_node)
 
-    def reconstruct_path(self):
+    def reconstruct_path(self, target_node=None):
+        if target_node is None:
+            target_node = self.end_node
         path = []
-        current_node = self.end_node
+        current_node = target_node
         while current_node is not None:
             path.append(current_node)
             current_node = self.came_from.get(current_node)
