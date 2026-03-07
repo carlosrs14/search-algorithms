@@ -6,10 +6,8 @@ class Menu:
         self.rect = rect
         self.font = pygame.font.Font(None, 24)
         self.title_font = pygame.font.Font(None, 32)
-        self.title_font.set_bold(True)
         self.instructions_font = pygame.font.Font(None, 16)
         self.speed_font = pygame.font.Font(None, 18)
-        self.speed_font.set_bold(True)
 
         self.algorithms = ['BFS', 'DFS', 'A*', 'Dijkstra', 'Greedy']
         self.datasets = ['chn31', 'att48', 'chn144']

@@ -1,4 +1,5 @@
 import asyncio
+import pygame
 from gui.window import Window
 from utils import sizes
 from utils.reader import GraphReader
