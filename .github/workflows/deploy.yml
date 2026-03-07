@@ -35,6 +35,9 @@ jobs:
 
       - name: Build WebAssembly with pygbag
         run: |
+          mkdir app
+          cp -r algorithms data gui utils main.py app/
+          cd app
           pygbag --build .
 
       - name: Setup Pages
@@ -43,7 +46,7 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'build/web'
+          path: 'app/build/web'
 
       - name: Deploy to GitHub Pages
         id: deployment
