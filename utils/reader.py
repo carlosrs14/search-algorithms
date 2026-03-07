@@ -12,12 +12,16 @@ class GraphReader:
         raw_cities = []
         
         # Read file
-        with open(filename, 'r') as file:
-            for line in file.readlines():
-                if not line.strip():
-                    continue
-                city = line.strip().split(' ')
-                raw_cities.append({'index': int(city[0]), 'x': float(city[1]), 'y': float(city[2])})
+        import sys
+        try:
+            with open(filename, 'r') as file:
+                for line in file.readlines():
+                    if not line.strip():
+                        continue
+                    city = line.strip().split(' ')
+                    raw_cities.append({'index': int(city[0]), 'x': float(city[1]), 'y': float(city[2])})
+        except Exception as e:
+            print(f"Error reading {filename}: {e}", file=sys.stderr)
 
         # Normalize coordinates between 0.05 and 0.95 (to leave some padding)
         if raw_cities:

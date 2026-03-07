@@ -9,10 +9,12 @@ async def main():
     end_node = 30
     data_file = 'data/chn31.txt'
 
+    await asyncio.sleep(0) # Let pygame init
     reader = GraphReader(data_file)
     cities = reader.get_cities()
     graph = reader.get_graph()
 
+    await asyncio.sleep(0) # Yield before creating heavy window
     game_map = Map(cities, sizes.REGULAR[0], sizes.REGULAR[1])
     window = Window(
         sizes.REGULAR, 
