@@ -1,6 +1,5 @@
 import pygame
-from utils.colors import BLACK, WHITE, BLUE, RED, GREEN
-
+from utils.colors import BACKGROUND, NODE_COLOR, EDGE_COLOR, START_COLOR, END_COLOR, VISITED_COLOR, FRONTIER_COLOR, PATH_COLOR
 
 class Map:
     def __init__(self, cities, width, height, padding=50):
@@ -9,37 +8,63 @@ class Map:
         self.height = height
         self.padding = padding
 
-        # Find the bounding box of the cities
-        min_x = min(city['x'] for city in cities)
-        max_x = max(city['x'] for city in cities)
-        min_y = min(city['y'] for city in cities)
-        max_y = max(city['y'] for city in cities)
-
-        # Calculate scaling factors
-        self.scale_x = (self.width - 2 * self.padding) / (max_x - min_x)
-        self.scale_y = (self.height - 2 * self.padding) / (max_y - min_y)
-
-        self.offset_x = self.padding - min_x * self.scale_x
-        self.offset_y = self.padding - min_y * self.scale_y
+        # Since we normalized between 0-1, we can just use the width and height
+        self.scale_x = (self.width - 2 * self.padding)
+        self.scale_y = (self.height - 2 * self.padding)
 
     def _scale_point(self, city):
-        x = city['x'] * self.scale_x + self.offset_x
-        y = city['y'] * self.scale_y + self.offset_y
+        x = city['x'] * self.scale_x + self.padding
+        y = city['y'] * self.scale_y + self.padding
         return int(x), int(y)
 
-    def draw(self, screen, path=None, start_node=None, end_node=None):
+    def get_city_at_pos(self, pos, radius=15):
+        for i, city in enumerate(self.cities):
+            cx, cy = self._scale_point(city)
+            if (pos[0] - cx)**2 + (pos[1] - cy)**2 <= radius**2:
+                return i
+        return None
+
+    def draw(self, screen, graph, frontier, visited, current_node, path, start_node, end_node):
+        screen.fill(BACKGROUND)
+        
+        # Draw all edges first (faint)
+        rank = len(self.cities)
+        for i in range(rank):
+            for j in range(i + 1, rank):
+                if graph[i][j] > 0:
+                    start_pos = self._scale_point(self.cities[i])
+                    end_pos = self._scale_point(self.cities[j])
+                    pygame.draw.line(screen, EDGE_COLOR, start_pos, end_pos, 1)
+
         # Draw path if available
         if path:
-            path_points = [self._scale_point(self.cities[i]) for i in path]
-            pygame.draw.lines(screen, BLUE, False, path_points, 5)
-
+            if len(path) > 1:
+                path_points = [self._scale_point(self.cities[i]) for i in path]
+                pygame.draw.lines(screen, PATH_COLOR, False, path_points, 4)
+        
         # Draw cities
         for i, city in enumerate(self.cities):
             pos = self._scale_point(city)
-            color = BLACK
-            if i == start_node:
-                color = GREEN # Start node
-            elif i == end_node:
-                color = RED   # End node
+            color = NODE_COLOR
+            radius = 4
             
-            pygame.draw.circle(screen, color, pos, 5)
+            if i in visited:
+                color = VISITED_COLOR
+                radius = 5
+            
+            if i in frontier:
+                color = FRONTIER_COLOR
+                radius = 6
+
+            if i == current_node:
+                color = (255, 255, 255)
+                radius = 8
+            
+            if i == start_node:
+                color = START_COLOR
+                radius = 8
+            elif i == end_node:
+                color = END_COLOR
+                radius = 8
+            
+            pygame.draw.circle(screen, color, pos, radius)
