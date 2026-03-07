@@ -4,10 +4,12 @@ from utils.colors import PANEL_BG, BUTTON_BG, BUTTON_HOVER, BUTTON_ACTIVE, TEXT_
 class Menu:
     def __init__(self, rect):
         self.rect = rect
-        self.font = pygame.font.SysFont("Segoe UI", 24)
-        self.title_font = pygame.font.SysFont("Segoe UI", 32, bold=True)
-        self.instructions_font = pygame.font.SysFont("Segoe UI", 16)
-        self.speed_font = pygame.font.SysFont("Segoe UI", 18, bold=True)
+        self.font = pygame.font.Font(None, 24)
+        self.title_font = pygame.font.Font(None, 32)
+        self.title_font.set_bold(True)
+        self.instructions_font = pygame.font.Font(None, 16)
+        self.speed_font = pygame.font.Font(None, 18)
+        self.speed_font.set_bold(True)
 
         self.algorithms = ['BFS', 'DFS', 'A*', 'Dijkstra', 'Greedy']
         self.datasets = ['chn31', 'att48', 'chn144']
