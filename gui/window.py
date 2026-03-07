@@ -67,6 +67,28 @@ class Window:
         self.algo_generator = algo.solve()
         self.is_paused = False
 
+    def _change_dataset(self, dataset_name):
+        from utils.reader import GraphReader
+        self.is_paused = True
+        self.algo_generator = None
+        
+        data_file = f'data/{dataset_name}.txt'
+        reader = GraphReader(data_file)
+        self.cities = reader.get_cities()
+        self.graph = reader.get_graph()
+        
+        self.game_map.cities = self.cities
+        self.start_node = 0
+        self.end_node = len(self.cities) - 1
+        
+        self.frontier = set()
+        self.visited = set()
+        self.current_node = None
+        self.path = []
+        
+        if self.menu.active_algo:
+            self._run_algorithm(self.menu.active_algo)
+
     async def start(self):
         running = True
         
@@ -77,9 +99,12 @@ class Window:
                 if event.type == pygame.QUIT:
                     running = False
                 
-                selected_algo = self.menu.handle_event(event)
-                if selected_algo:
-                    self._run_algorithm(selected_algo)
+                action = self.menu.handle_event(event)
+                if action:
+                    if action['type'] == 'algo':
+                        self._run_algorithm(action['value'])
+                    elif action['type'] == 'dataset':
+                        self._change_dataset(action['value'])
                     
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = event.pos

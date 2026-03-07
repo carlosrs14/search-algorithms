@@ -10,8 +10,13 @@ class Menu:
         self.speed_font = pygame.font.SysFont("Segoe UI", 18, bold=True)
 
         self.algorithms = ['BFS', 'DFS', 'A*', 'Dijkstra', 'Greedy']
+        self.datasets = ['chn31', 'att48', 'chn144']
         self.buttons = []
         self.active_algo = None
+        self.active_dataset = 'chn31'
+        
+        self.dataset_title_y = 0
+        self.speed_label_y = 0
         
         self.hovered_btn = None
         
@@ -24,18 +29,28 @@ class Menu:
     def _create_buttons(self):
         self.buttons.clear()
         button_width = self.rect.width - 40
-        button_height = 45
+        button_height = 40
         x = self.rect.x + 20
-        y_start = self.rect.y + 100
-        y_gap = 60
+        y_start = self.rect.y + 70
+        y_gap = 45
 
         for i, algo in enumerate(self.algorithms):
             y = y_start + i * y_gap
             rect = pygame.Rect(x, y, button_width, button_height)
             self.buttons.append({'rect': rect, 'text': algo, 'action': algo, 'type': 'algo'})
 
+        # Datasets
+        dataset_y_label = y_start + len(self.algorithms) * y_gap + 10
+        self.dataset_title_y = dataset_y_label
+        dataset_y_start = dataset_y_label + 40
+        for i, ds in enumerate(self.datasets):
+            y = dataset_y_start + i * y_gap
+            rect = pygame.Rect(x, y, button_width, button_height)
+            self.buttons.append({'rect': rect, 'text': ds, 'action': ds, 'type': 'dataset'})
+
         # Speed controls
-        speed_y = y_start + len(self.algorithms) * y_gap + 20
+        speed_y = dataset_y_start + len(self.datasets) * y_gap + 20
+        self.speed_label_y = speed_y - 25
         half_btn_width = (button_width - 10) // 2
         
         slow_rect = pygame.Rect(x, speed_y, half_btn_width, button_height)
@@ -51,7 +66,7 @@ class Menu:
 
         # Draw title
         title_surface = self.title_font.render("Algorithms", True, TEXT_COLOR)
-        screen.blit(title_surface, (self.rect.x + 20, self.rect.y + 30))
+        screen.blit(title_surface, (self.rect.x + 20, self.rect.y + 20))
 
         # Instructions
         inst_surf1 = self.instructions_font.render("Left Click Node: Set Start", True, (150, 150, 160))
@@ -63,16 +78,21 @@ class Menu:
         screen.blit(inst_surf2, (self.rect.x + 20, dy + 25))
         screen.blit(inst_surf3, (self.rect.x + 20, dy + 50))
 
+        # Dataset Title
+        dataset_title = self.title_font.render("Datasets", True, TEXT_COLOR)
+        screen.blit(dataset_title, (self.rect.x + 20, self.dataset_title_y))
+
         # Speed Label
         speed_label = self.speed_font.render(f"Speed: {self.fps} FPS", True, TEXT_COLOR)
         # Position it above the speed buttons
-        speed_y = self.rect.y + 100 + len(self.algorithms) * 60 - 10
-        screen.blit(speed_label, (self.rect.x + 20, speed_y))
+        screen.blit(speed_label, (self.rect.x + 20, self.speed_label_y))
 
         # Draw buttons
         for button in self.buttons:
             color = BUTTON_BG
             if button['type'] == 'algo' and button['action'] == self.active_algo:
+                color = BUTTON_ACTIVE
+            elif button['type'] == 'dataset' and button['action'] == self.active_dataset:
                 color = BUTTON_ACTIVE
             elif button == self.hovered_btn:
                 color = BUTTON_HOVER
@@ -95,7 +115,10 @@ class Menu:
                     if button['rect'].collidepoint(event.pos):
                         if button['type'] == 'algo':
                             self.active_algo = button['action']
-                            return button['action']
+                            return {'type': 'algo', 'value': button['action']}
+                        elif button['type'] == 'dataset':
+                            self.active_dataset = button['action']
+                            return {'type': 'dataset', 'value': button['action']}
                         elif button['type'] == 'speed':
                             if button['action'] == 'speed_up':
                                 self.fps_idx = min(len(self.fps_options) - 1, self.fps_idx + 1)
