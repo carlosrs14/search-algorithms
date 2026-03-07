@@ -15,6 +15,9 @@ This project aims to implement and visualize various search algorithms. Through 
 
 ## GitHub Pages Deployment
 
-This project uses `pygbag` to compile the Pygame application to WebAssembly and deploy it to GitHub Pages. It allows anyone to play the simulation directly from their browser from the GitHub Pages URL.
+This project uses `pygbag` to compile the Pygame application to WebAssembly and deploy it to GitHub Pages. It allows anyone to play the simulation directly from their browser here is the url.
+```
+https://carlosrs14.github.io/search-algorithms/
+```
 
 If you are a contributor deploying this project, the GitHub Actions workflow will automatically build and publish to the `gh-pages` branch on push to the `main` branch.
