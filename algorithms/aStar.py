@@ -23,11 +23,16 @@ class AStar(algorithm.Algorithm):
         return GraphReader.distance(self.cities[node1], self.cities[node2])
 
     def solve(self):
+        self.frontier.add(self.start_node)
+        yield self.frontier, self.closed_set, self.start_node, []
+
         while self.open_set:
             _, current_node = heapq.heappop(self.open_set)
+            self.frontier.discard(current_node)
 
             if current_node == self.end_node:
-                return self.reconstruct_path()
+                yield self.frontier, self.closed_set, current_node, self.reconstruct_path()
+                return
 
             self.closed_set.add(current_node)
 
@@ -50,7 +55,9 @@ class AStar(algorithm.Algorithm):
                                 break
                         if not in_open_set:
                             heapq.heappush(self.open_set, (self.f_score[neighbor], neighbor))
-        return None
+                            self.frontier.add(neighbor)
+            
+            yield self.frontier, self.closed_set, current_node, []
 
     def reconstruct_path(self):
         path = []

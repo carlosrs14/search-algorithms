@@ -8,19 +8,25 @@ class DFS(algorithm.Algorithm):
         self.came_from = {self.start_node: None}
     
     def solve(self):
+        self.frontier.add(self.start_node)
+        yield self.frontier, self.visited, self.start_node, []
+
         while self.stack:
             current_node = self.stack.pop()
+            self.frontier.discard(current_node)
+            self.visited.add(current_node)
 
             if current_node == self.end_node:
-                return self.reconstruct_path()
+                yield self.frontier, self.visited, current_node, self.reconstruct_path()
+                return
             
             for neighbor in range(len(self.graph[current_node])):
-                if self.graph[current_node][neighbor] > 0 and neighbor not in self.visited:
-                    self.visited.add(neighbor)
+                if self.graph[current_node][neighbor] > 0 and neighbor not in self.visited and neighbor not in self.frontier:
+                    self.frontier.add(neighbor)
                     self.came_from[neighbor] = current_node
                     self.stack.append(neighbor)
         
-        return None
+            yield self.frontier, self.visited, current_node, []
 
     def reconstruct_path(self):
         path = []
