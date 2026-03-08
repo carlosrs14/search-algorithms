@@ -93,7 +93,6 @@ class Window:
         running = True
         
         while running:
-            dt = self.clock.tick(self.menu.fps)
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -157,6 +156,7 @@ class Window:
             self.menu.draw(self.screen)
 
             pygame.display.update()
+            self.clock.tick(self.menu.fps)
             await asyncio.sleep(0)
             
         pygame.quit()
