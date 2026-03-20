@@ -54,7 +54,7 @@ export class Greedy extends Algorithm {
 
       for (let neighbor = 0; neighbor < this.graph[currentNode].length; neighbor++) {
         const weight = this.graph[currentNode][neighbor];
-        if (weight > 0) { // Connected
+        if (weight > 0) {
           if (!this.closedSet.has(neighbor)) {
             this.cameFrom.set(neighbor, currentNode);
             this.pq.push({ hScore: this.heuristic(neighbor, this.endNode), node: neighbor });
@@ -81,7 +81,6 @@ export class Greedy extends Algorithm {
       current = this.cameFrom.get(current)!;
     }
     path.push(this.startNode);
-    // Remove duplicates if start was pushed twice
     return Array.from(new Set(path)).reverse();
   }
 }

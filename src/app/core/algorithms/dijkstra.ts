@@ -53,7 +53,7 @@ export class Dijkstra extends Algorithm {
 
       for (let neighbor = 0; neighbor < this.graph[currentNode].length; neighbor++) {
         const weight = this.graph[currentNode][neighbor];
-        if (weight > 0) { // Connected
+        if (weight > 0) {
           const distance = currentDistance + weight;
 
           if (distance < this.distances.get(neighbor)!) {

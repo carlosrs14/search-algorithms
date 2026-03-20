@@ -40,7 +40,6 @@ export class AStar extends Algorithm {
     };
 
     while (this.openSet.length > 0) {
-      // Find node with minimum fScore
       this.openSet.sort((a, b) => a.fScore - b.fScore);
       const current = this.openSet.shift()!;
       const currentNode = current.node;
@@ -79,7 +78,7 @@ export class AStar extends Algorithm {
               this.openSet.push({ fScore: neighborFScore, node: neighbor });
               this.frontierSet.add(neighbor);
             } else {
-              inOpenSet.fScore = neighborFScore; // Update fScore
+              inOpenSet.fScore = neighborFScore;
             }
           }
         }

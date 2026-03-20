@@ -30,7 +30,6 @@ export class MapComponent implements OnChanges {
   private scaleX = 0;
   private scaleY = 0;
 
-  // Colors from colors.py
   private BACKGROUND = '#21252b';
   private NODE_COLOR = '#abb2bf';
   private EDGE_COLOR = '#3e4451';
@@ -164,7 +163,7 @@ export class MapComponent implements OnChanges {
   }
 
   onContextMenu(event: MouseEvent) {
-    event.preventDefault(); // Prevent native menu
+    event.preventDefault();
     let cityIdx = this.getCityAtPos(event.offsetX, event.offsetY);
     if (cityIdx !== null) this.nodeRightClick.emit(cityIdx);
   }
