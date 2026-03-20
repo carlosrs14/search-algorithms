@@ -129,7 +129,7 @@ export class AppComponent implements OnInit, OnDestroy {
   onNodeLeftClick(index: number) {
     this.startNode = index;
     if (this.activeAlgo) {
-      this.runAlgorithm(this.activeAlgo); // re-run
+      this.runAlgorithm(this.activeAlgo);
     } else {
       this.resetState();
     }
@@ -138,7 +138,7 @@ export class AppComponent implements OnInit, OnDestroy {
   onNodeRightClick(index: number) {
     this.endNode = index;
     if (this.activeAlgo) {
-      this.runAlgorithm(this.activeAlgo); // re-run
+      this.runAlgorithm(this.activeAlgo);
     } else {
       this.resetState();
     }
