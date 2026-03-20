@@ -15,54 +15,8 @@ import { Greedy } from './core/algorithms/greedy';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, MapComponent, MenuComponent],
-  template: `
-    <div class="app-container">
-      <div class="map-area">
-        <app-map
-          [cities]="cities"
-          [graph]="graph"
-          [frontier]="frontier"
-          [visited]="visited"
-          [currentNode]="currentNode"
-          [path]="path"
-          [startNode]="startNode"
-          [endNode]="endNode"
-          (nodeLeftClick)="onNodeLeftClick($event)"
-          (nodeRightClick)="onNodeRightClick($event)">
-        </app-map>
-      </div>
-      <div class="sidebar">
-        <app-menu
-          [activeAlgo]="activeAlgo"
-          [activeDataset]="activeDataset"
-          [fps]="fps"
-          (selectAlgo)="onSelectAlgo($event)"
-          (selectDataset)="onSelectDataset($event)"
-          (speedChange)="onSpeedChange($event)">
-        </app-menu>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .app-container {
-      display: flex;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      margin: 0;
-      padding: 0;
-      background: #21252b;
-    }
-    .map-area {
-      flex: 1;
-      height: 100%;
-    }
-    .sidebar {
-      width: 300px;
-      height: 100%;
-      flex-shrink: 0;
-    }
-  `]
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit, OnDestroy {
   cities: City[] = [];

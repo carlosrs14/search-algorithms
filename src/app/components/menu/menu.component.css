@@ -1,0 +1,55 @@
+.menu-panel {
+    padding: 20px;
+    color: #abb2bf;
+    background-color: #282c34;
+    height: 100%;
+    border-left: 2px solid #32323c;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+h2 {
+    margin: 10px 0 5px 0;
+    font-size: 1.2rem;
+    color: #e5c07b;
+}
+.instructions {
+    font-size: 0.8rem;
+    color: #7f848e;
+}
+.instructions p {
+    margin: 2px 0;
+}
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.speed-slider-container {
+    width: 100%;
+    padding: 10px 0;
+}
+.speed-slider {
+    width: 100%;
+    cursor: pointer;
+    accent-color: #61afef;
+}
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3e4451;
+    color: #abb2bf;
+    cursor: pointer;
+    font-weight: bold;
+    flex: 1;
+    transition: background-color 0.2s;
+}
+button:hover {
+    background-color: #4b5363;
+}
+button.active {
+    background-color: #61afef;
+    color: #282c34;
+}

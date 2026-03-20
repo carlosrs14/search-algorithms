@@ -5,25 +5,8 @@ import { City } from '../../core/models/city';
   selector: 'app-map',
   standalone: true,
   imports: [],
-  template: `
-    <div class="map-container">
-      <canvas #canvas
-        (mousedown)="onMouseDown($event)"
-        (contextmenu)="onContextMenu($event)"></canvas>
-    </div>
-  `,
-  styles: [`
-    .map-container {
-      width: 100%;
-      height: 100%;
-      background-color: #21252b;
-    }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-  `]
+  templateUrl: './map.component.html',
+  styleUrl: './map.component.css'
 })
 export class MapComponent implements OnChanges {
   @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;

@@ -1,1 +1,39 @@
-<p>menu works!</p>
+<div class="menu-panel">
+    <h2>Algorithms</h2>
+    <div class="instructions">
+    <p>Left Click Node: Set Start</p>
+    <p>Right Click Node: Set End</p>
+    <p>Space: Play/Pause</p>
+    </div>
+
+    <div class="button-group">
+    @for (algo of algorithms; track algo) {
+        <button 
+        [class.active]="activeAlgo === algo"
+        (click)="selectAlgo.emit(algo)">
+        {{algo}}
+        </button>
+    }
+    </div>
+
+    <h2>Datasets</h2>
+    <div class="button-group">
+    @for (ds of datasets; track ds) {
+        <button 
+        [class.active]="activeDataset === ds"
+        (click)="selectDataset.emit(ds)">
+        {{ds}}
+        </button>
+    }
+    </div>
+
+    <h2>Speed: {{fps}} FPS</h2>
+    <div class="speed-slider-container">
+    <input type="range" 
+            class="speed-slider"
+            min="1" 
+            max="60" 
+            [value]="fps" 
+            (input)="onSpeedChange($event)">
+    </div>
+</div>
