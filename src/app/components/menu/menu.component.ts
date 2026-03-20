@@ -34,9 +34,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       </div>
 
       <h2>Speed: {{fps}} FPS</h2>
-      <div class="speed-controls">
-        <button (click)="speedDown.emit()">Slower</button>
-        <button (click)="speedUp.emit()">Faster</button>
+      <div class="speed-slider-container">
+        <input type="range" 
+               class="speed-slider"
+               min="1" 
+               max="60" 
+               [value]="fps" 
+               (input)="onSpeedChange($event)">
       </div>
     </div>
   `,
@@ -69,9 +73,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       flex-direction: column;
       gap: 8px;
     }
-    .speed-controls {
-      display: flex;
-      gap: 10px;
+    .speed-slider-container {
+      width: 100%;
+      padding: 10px 0;
+    }
+    .speed-slider {
+      width: 100%;
+      cursor: pointer;
+      accent-color: #61afef;
     }
     button {
       padding: 10px;
@@ -96,13 +105,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class MenuComponent {
   @Input() algorithms: string[] = ['BFS', 'DFS', 'A*', 'Dijkstra', 'Greedy'];
   @Input() datasets: string[] = ['chn31', 'att48', 'chn144'];
-  
+
   @Input() activeAlgo: string | null = null;
   @Input() activeDataset: string = 'chn31';
-  @Input() fps: number = 30;
+  @Input() fps: number = 20;
 
   @Output() selectAlgo = new EventEmitter<string>();
   @Output() selectDataset = new EventEmitter<string>();
-  @Output() speedUp = new EventEmitter<void>();
-  @Output() speedDown = new EventEmitter<void>();
+  @Output() speedChange = new EventEmitter<number>();
+
+  onSpeedChange(event: Event) {
+    const val = +(event.target as HTMLInputElement).value;
+    this.speedChange.emit(val);
+  }
 }

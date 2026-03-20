@@ -38,8 +38,7 @@ import { Greedy } from './core/algorithms/greedy';
           [fps]="fps"
           (selectAlgo)="onSelectAlgo($event)"
           (selectDataset)="onSelectDataset($event)"
-          (speedUp)="onSpeedUp()"
-          (speedDown)="onSpeedDown()">
+          (speedChange)="onSpeedChange($event)">
         </app-menu>
       </div>
     </div>
@@ -68,7 +67,7 @@ import { Greedy } from './core/algorithms/greedy';
 export class AppComponent implements OnInit, OnDestroy {
   cities: City[] = [];
   graph: number[][] = [];
-  
+
   startNode: number = 0;
   endNode: number = 0;
 
@@ -79,22 +78,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   activeAlgo: string | null = null;
   activeDataset: string = 'chn31';
-  
-  fpsOptions = [1, 5, 15, 30, 60, 120];
-  fpsIdx = 4;
-  get fps() { return this.fpsOptions[this.fpsIdx]; }
+
+  fps = 10;
 
   isPaused = false;
   algoGenerator: Generator<NodeState, void, unknown> | null = null;
-  
+
   private animationFrameId: number | null = null;
   private lastFrameTime = 0;
 
-  constructor(private graphService: GraphService) {}
+  constructor(private graphService: GraphService) { }
 
   ngOnInit() {
     this.loadDataset(this.activeDataset);
-    
+
     // Listen for space key to pause/play
     window.addEventListener('keydown', this.handleKeyDown);
     this.animationLoop(performance.now());
@@ -118,16 +115,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isPaused = true;
     this.algoGenerator = null;
     this.activeDataset = dataset;
-    
+
     try {
       const data = await this.graphService.loadGraph(dataset);
       this.cities = data.cities;
       this.graph = data.graph;
-      
+
       this.startNode = 0;
       this.endNode = this.cities.length > 0 ? this.cities.length - 1 : 0;
       this.resetState();
-      
+
       if (this.activeAlgo) {
         this.runAlgorithm(this.activeAlgo);
       }
@@ -147,7 +144,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.activeAlgo = algoName;
     this.resetState();
     this.algoGenerator = null;
-    
+
     if (!algoName) return;
 
     let algo: Algorithm;
@@ -170,7 +167,7 @@ export class AppComponent implements OnInit, OnDestroy {
       default:
         return;
     }
-    
+
     this.algoGenerator = algo.solve();
     this.isPaused = false;
   }
@@ -201,12 +198,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loadDataset(ds);
   }
 
-  onSpeedUp() {
-    this.fpsIdx = Math.min(this.fpsOptions.length - 1, this.fpsIdx + 1);
-  }
-
-  onSpeedDown() {
-    this.fpsIdx = Math.max(0, this.fpsIdx - 1);
+  onSpeedChange(newFps: number) {
+    this.fps = newFps;
   }
 
   private animationLoop = (timestamp: number) => {
@@ -225,7 +218,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.lastFrameTime = timestamp;
       }
     }
-    
+
     this.animationFrameId = requestAnimationFrame(this.animationLoop);
   };
 }
