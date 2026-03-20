@@ -1,0 +1,26 @@
+<div class="app-container">
+  <div class="map-area">
+    <app-map
+      [cities]="cities"
+      [graph]="graph"
+      [frontier]="frontier"
+      [visited]="visited"
+      [currentNode]="currentNode"
+      [path]="path"
+      [startNode]="startNode"
+      [endNode]="endNode"
+      (nodeLeftClick)="onNodeLeftClick($event)"
+      (nodeRightClick)="onNodeRightClick($event)">
+    </app-map>
+  </div>
+  <div class="sidebar">
+    <app-menu
+      [activeAlgo]="activeAlgo"
+      [activeDataset]="activeDataset"
+      [fps]="fps"
+      (selectAlgo)="onSelectAlgo($event)"
+      (selectDataset)="onSelectDataset($event)"
+      (speedChange)="onSpeedChange($event)">
+    </app-menu>
+  </div>
+</div>
