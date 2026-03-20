@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Angular App to GitHub Pages
 
 on:
   push:
@@ -24,21 +24,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '20'
 
       - name: Install dependencies
         run: |
-          pip install pygame pygbag
+          npm ci
 
-      - name: Build WebAssembly with pygbag
+      - name: Build Angular app
         run: |
-          mkdir app
-          cp -r algorithms data gui utils main.py app/
-          cd app
-          pygbag --build .
+          npx @angular/cli@18 build --base-href /search-algorithms/ --configuration production
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -46,7 +43,7 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'app/build/web'
+          path: 'dist/web/browser'
 
       - name: Deploy to GitHub Pages
         id: deployment
