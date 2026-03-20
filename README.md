@@ -1,23 +1,27 @@
-# Algorithms Visualizer
+# Web
 
-This project aims to implement and visualize various search algorithms. Through an intuitive user interface, you can explore and understand the functioning of classic algorithms such as BFS, DFS, A*, Dijkstra, and Greedy Search.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
 
-## How to Run Locally
+## Development server
 
-1. Install the requirements:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Run the application:
-   ```bash
-   python main.py
-   ```
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## GitHub Pages Deployment
+## Code scaffolding
 
-This project uses `pygbag` to compile the Pygame application to WebAssembly and deploy it to GitHub Pages. It allows anyone to play the simulation directly from their browser here is the url.
-```
-https://carlosrs14.github.io/search-algorithms/
-```
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-If you are a contributor deploying this project, the GitHub Actions workflow will automatically build and publish to the `gh-pages` branch on push to the `main` branch.
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
