@@ -7,10 +7,10 @@ import { City } from '../models/city';
   providedIn: 'root'
 })
 export class GraphService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   async loadGraph(datasetName: string, kNeighbors: number = 4): Promise<{ cities: City[], graph: number[][] }> {
-    const data = await firstValueFrom(this.http.get(`data/${datasetName}.txt`, { responseType: 'text' }));
+    const data: string = await firstValueFrom(this.http.get(`data/${datasetName}.txt`, { responseType: 'text' }));
     return this.parseData(data, kNeighbors);
   }
 

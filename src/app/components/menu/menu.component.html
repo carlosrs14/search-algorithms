@@ -3,7 +3,15 @@
     <div class="instructions">
     <p>Left Click Node: Set Start</p>
     <p>Right Click Node: Set End</p>
-    <p>Space: Play/Pause</p>
+    <p class="desktop-only">Space: Play/Pause</p>
+    </div>
+
+    <div class="playback-controls">
+        <button class="playback-btn" 
+                [class.paused]="isPaused" 
+                (click)="togglePause.emit()">
+            {{ isPaused ? '▶ Play' : '⏸ Pause' }}
+        </button>
     </div>
 
     <div class="button-group">

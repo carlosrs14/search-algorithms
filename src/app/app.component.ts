@@ -156,6 +156,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.fps = newFps;
   }
 
+  onTogglePause() {
+    this.isPaused = !this.isPaused;
+  }
+
   private animationLoop = (timestamp: number) => {
     if (!this.isPaused && this.algoGenerator) {
       const msPerFrame = 1000 / this.fps;

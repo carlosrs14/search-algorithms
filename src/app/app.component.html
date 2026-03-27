@@ -18,9 +18,11 @@
       [activeAlgo]="activeAlgo"
       [activeDataset]="activeDataset"
       [fps]="fps"
+      [isPaused]="isPaused"
       (selectAlgo)="onSelectAlgo($event)"
       (selectDataset)="onSelectDataset($event)"
-      (speedChange)="onSpeedChange($event)">
+      (speedChange)="onSpeedChange($event)"
+      (togglePause)="onTogglePause()">
     </app-menu>
   </div>
 </div>
