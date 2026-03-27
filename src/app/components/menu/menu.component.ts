@@ -13,10 +13,12 @@ export class MenuComponent {
   @Input() activeAlgo: string | null = null;
   @Input() activeDataset: string = 'chn31';
   @Input() fps: number = 20;
+  @Input() isPaused: boolean = false;
 
   @Output() selectAlgo = new EventEmitter<string>();
   @Output() selectDataset = new EventEmitter<string>();
   @Output() speedChange = new EventEmitter<number>();
+  @Output() togglePause = new EventEmitter<void>();
 
   onSpeedChange(event: Event) {
     const val = +(event.target as HTMLInputElement).value;

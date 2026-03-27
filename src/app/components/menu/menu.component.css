@@ -26,6 +26,26 @@ h2 {
     flex-direction: column;
     gap: 8px;
 }
+.playback-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+.playback-btn {
+    background-color: #98c379;
+    color: #282c34;
+    font-size: 1rem;
+    padding: 12px;
+}
+.playback-btn:hover {
+    background-color: #b5e890;
+}
+.playback-btn.paused {
+    background-color: #e5c07b;
+}
+.playback-btn.paused:hover {
+    background-color: #fce8a9;
+}
 .speed-slider-container {
     width: 100%;
     padding: 10px 0;
@@ -52,4 +72,24 @@ button:hover {
 button.active {
     background-color: #61afef;
     color: #282c34;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+    .menu-panel {
+        border-left: none;
+        border-top: 2px solid #32323c;
+    }
+    .button-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    button {
+       flex: 1 1 calc(50% - 8px);
+    }
+    .playback-btn {
+       flex: 1 1 100%;
+    }
 }
